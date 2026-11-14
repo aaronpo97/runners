@@ -7,7 +7,11 @@ services:
       RUNNER_WORKDIR_ROOT: /tmp/runner/work # Each replica gets its own <root>/<runner name> subdir
       RUNNER_SCOPE: 'repo'
       LABELS: linux,x64
-      DISABLE_AUTOMATIC_DEREGISTRATION: 'true'
+      # Reuse mode forces DISABLE_AUTOMATIC_DEREGISTRATION=true (it won't start otherwise),
+      # which leaves a stale offline runner behind on every restart. Disabling reuse lets the
+      # image's built-in SIGTERM trap deregister the runner on container stop instead.
+      CONFIGURED_ACTIONS_RUNNER_FILES_DIR: ''
+      DISABLE_AUTOMATIC_DEREGISTRATION: 'false'
     security_opt:
       # Disable SELinux labeling so the container can manage other Docker containers
       - label:disable
