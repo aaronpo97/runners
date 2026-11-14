@@ -3,10 +3,8 @@ services:
     image: myoung34/github-runner:latest
     environment:
       REPO_URL: https://github.com/aaronpo97/the-biergarten-app
-      RUNNER_NAME: Aaron-VPS
       RUNNER_TOKEN: ${RUNNER_TOKEN}
-      RUNNER_WORKDIR: /tmp/runner/work
-      CONFIGURED_ACTIONS_RUNNER_FILES_DIR: /runner/data # Required for persistence
+      RUNNER_WORKDIR_ROOT: /tmp/runner/work # Each replica gets its own <root>/<runner name> subdir
       RUNNER_SCOPE: 'repo'
       LABELS: linux,x64
     security_opt:
@@ -14,7 +12,6 @@ services:
       - label:disable
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
-      - '/runner/data:/runner/data'
       - '/tmp/runner:/tmp/runner'
       # Docker commands run on the host but use paths from inside the container,
       # so this directory must be mounted at the same path in both environments.
