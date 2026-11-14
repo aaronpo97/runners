@@ -4,21 +4,19 @@ services:
     environment:
       REPO_URL: https://github.com/aaronpo97/the-biergarten-app
       RUNNER_TOKEN: ${RUNNER_TOKEN}
-      RUNNER_WORKDIR_ROOT: /tmp/runner/work # Each replica gets its own <root>/<runner name> subdir
+      # Each replica gets its own subdirectory: <root>/<runner name>
+      RUNNER_WORKDIR_ROOT: /tmp/runner/work
       RUNNER_SCOPE: 'repo'
       LABELS: linux,x64
-      # Reuse mode forces DISABLE_AUTOMATIC_DEREGISTRATION=true (it won't start otherwise),
-      # which leaves a stale offline runner behind on every restart. Disabling reuse lets the
-      # image's built-in SIGTERM trap deregister the runner on container stop instead.
+      # Disable runner config reuse so the image's SIGTERM trap
+      # deregisters the runner on container stop
       CONFIGURED_ACTIONS_RUNNER_FILES_DIR: ''
       DISABLE_AUTOMATIC_DEREGISTRATION: 'false'
     security_opt:
-      # Disable SELinux labeling so the container can manage other Docker containers
+      # Disable SELinux labelling so the container can manage other containers
       - label:disable
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
+      # Docker commands execute on the host but resolve paths from inside the
+      # container, so the work directory must be mounted at the same path in both
       - '/tmp/runner:/tmp/runner'
-      # Docker commands run on the host but use paths from inside the container,
-      # so this directory must be mounted at the same path in both environments.
-    env_file:
-      - .env
