@@ -4,7 +4,7 @@ services:
     environment:
       REPO_URL: https://github.com/aaronpo97/the-biergarten-app
       RUNNER_NAME: Aaron-VPS
-      ACCESS_TOKEN: ${ACCESS_TOKEN}
+      RUNNER_TOKEN: ${RUNNER_TOKEN}
       RUNNER_WORKDIR: /tmp/runner/work
       CONFIGURED_ACTIONS_RUNNER_FILES_DIR: /runner/data # Required for persistence
       RUNNER_SCOPE: 'repo'
