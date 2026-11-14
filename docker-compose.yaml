@@ -7,6 +7,7 @@ services:
       RUNNER_WORKDIR_ROOT: /tmp/runner/work # Each replica gets its own <root>/<runner name> subdir
       RUNNER_SCOPE: 'repo'
       LABELS: linux,x64
+      DISABLE_AUTOMATIC_DEREGISTRATION: 'true'
     security_opt:
       # Disable SELinux labeling so the container can manage other Docker containers
       - label:disable
