@@ -1,6 +1,7 @@
 services:
   worker:
     image: myoung34/github-runner:latest
+    network_mode: host
     environment:
       REPO_URL: https://github.com/aaronpo97/the-biergarten-app
       RUNNER_TOKEN: ${RUNNER_TOKEN}
